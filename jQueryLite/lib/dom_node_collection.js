@@ -1,14 +1,8 @@
 class DOMNodeCollection {
   constructor(htmlEls) {
     this.htmlEls = htmlEls;
-    // const alert1 = ((e) => alert("Handler1"));
-    // const alert2 = ((e) => alert("Handler2"));
-    // this.on("click", alert1);
-    // this.on("click", alert2);
-    // this.off("click", alert1);
-    // 
   }
-  
+
   html(string) {
     if (!string) {
       return this.htmlEls[0].innerHTML;
@@ -18,102 +12,104 @@ class DOMNodeCollection {
       });
     }
   }
-  
+
   empty() {
-    this.htmlEls.forEach((node) => {
-      node.innerHTML = "";
-    });
+    this.html('');
   }
-  
+
   append(arg) {
     this.htmlEls.forEach( (node) => {
       node.innerHTML += arg;
     });
   }
-  
+
   attr(attrName, newValue) {
-    for (let i = 0; i < this.htmlEls.length; i++) {
-      if (this.htmlEls[i].attributes.getNamedItem(attrName)) {
-        let myAttributes = this.htmlEls[i].attributes;
-        let myAttribute = myAttributes.getNamedItem(attrName);
-        
-        if (newValue !== undefined) {
-          myAttribute.value = newValue;
-        } 
-          return myAttribute.value;
-      }
+    if (typeof newValue === 'string' ) {
+      this.htmlEls.forEach( (node) => {
+        node.setAttribute(attrName, newValue)
+      });
+    } else {
+      return this.htmlEls[0].getAttribute(attrName);
     }
   }
-  
+
   addClass(className) {
     this.htmlEls.forEach ( (node) => {
       node.classList.add(className);
     });
   }
-  
+
   removeClass(className) {
     this.htmlEls.forEach ( (node) => {
       node.classList.remove(className);
     });
   }
-  
+
   children() {
     let result = [];
-    
+
     this.htmlEls.forEach( (node) => {
       let nodeChildren = node.children;
       result = result.concat(Array.from(nodeChildren));
     });
-    
     return new DOMNodeCollection(result);
   }
-  
+
   parent() {
     let result = [];
-    
+
     this.htmlEls.forEach( (node) => {
-      // debugger
       let nodeParent = node.parentNode;
       if (!result.includes(nodeParent)) {
         result.push(nodeParent);
         }
       });
-    
+
       return new DOMNodeCollection(result);
     }
-  
-  
+
+
   find(selector) {
     let result = [];
-    
+
     this.htmlEls.forEach( (node) => {
       let elementList = node.querySelectorAll(selector);
-      let elArray = Array.from(elementList);
-      result = result.concat(elArray);
+      result = result.concat(Array.from(elementList));
     });
-    
+
     return new DOMNodeCollection(result);
   }
-  
+
   remove () {
     this.empty();
     this.htmlEls = [];
   }
-  
-  on (e, handler) {
+
+  on (eventName, handler) {
     this.htmlEls.forEach( (node) => {
-      node.addEventListener(e, handler);
+      node.addEventListener(eventName, handler);
+      const eventKey = `domani-${eventName}`;
+      if (typeof node[eventKey] === 'undefined') {
+        node[eventKey] = [];
+      }
+      node[eventKey].push(handler);
     });
   }
-  
-  off (e, handler) {
+
+  off (eventName) {
     this.htmlEls.forEach( (node) => {
-      node.removeEventListener(e, handler);
+      const eventKey = `domani-${eventName}`;
+      if (node[eventKey]) {
+        node[eventKey].forEach((handler) => {
+          node.removeEventListener(eventName, handler);
+        });
+      }
+      node[eventKey] = [];
     });
   }
-  
+
 }
-  
-  
+
+
 
 module.exports = DOMNodeCollection;

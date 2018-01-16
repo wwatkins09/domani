@@ -74,7 +74,7 @@ const DOMNodeCollection = __webpack_require__(1);
 
 const queue = [];
 
-window.$l = function (selector) {
+window.$d = function (selector) {
   
   if (selector instanceof Function) {
     queue.push(selector);
@@ -95,11 +95,11 @@ window.$l = function (selector) {
   
 };
 
-window.$l.extend = function(...objects) {
+window.$d.extend = function(...objects) {
   return Object.assign(...objects);
 };
 
-window.$l.ajax = function(options) {
+window.$d.ajax = function(options) {
   let defaults = {
     success(data) { JSON.parse('Success'); },
     error() { JSON.parse("An error occurred");},
@@ -123,8 +123,8 @@ window.$l.ajax = function(options) {
   xhr.send(mergedCall.data);
 };
 
-// $l( () => {
-//   console.log($l("li"));
+// $d( () => {
+//   console.log($d("li"));
 // });
 
 /***/ }),

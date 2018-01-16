@@ -1,56 +1,74 @@
 const DOMNodeCollection = require('./dom_node_collection.js');
 
-const queue = [];
+const _queue = [];
+let _docReady = false;
 
-window.$l = function (selector) {
-  
-  if (selector instanceof Function) {
-    queue.push(selector);
-    } else if (selector instanceof HTMLElement) {
-      let element = selector;
-      return new DOMNodeCollection([element]);
-    } else {
-      let element = document.querySelectorAll(selector);
-      const elementArray = Array.from(element);
-      return new DOMNodeCollection(elementArray);
-    }
-  
+window.$d = function (selector) {
+  switch (typeof selector) {
+    case 'function':
+      return registerDocReadyCallback(selector);
+    case 'string':
+      return fetchNodesFromDom(selector);
+    case 'object':
+      if (selector instanceof HTMLElement) {
+        return new DOMNodeCollection([selector])
+      }
+  }
+
   document.addEventListener("DOMContentLoaded", (e) => {
+    _docReady = true;
     queue.forEach((func) => {
       func();
     });
   });
-  
 };
 
-window.$l.extend = function(...objects) {
-  return Object.assign(...objects);
+window.$d.extend = function(base, ...objects) {
+  objects.forEach((object) => {
+    for (const key in obj) {
+      base[key] = obj[key];
+    }
+  });
+  return base;
 };
 
-window.$l.ajax = function(options) {
-  let defaults = {
-    success(data) { JSON.parse('Success'); },
-    error() { JSON.parse("An error occurred");},
-    url: 'http://www.google.com',
+window.$d.ajax = function(options) {
+  const defaults = {
+    success: () => {},
+    error: () => {},
+    url: '',
     method: 'GET',
     data: "",
     contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
   };
-  
-  const mergedCall = Object.assign(defaults, options);
-  
+
+  const mergedCall = $d.extend(defaults, options);
+  mergedCall.method = mergedCall.method.toUpperCase();
+
   const xhr = new XMLHttpRequest();
-  xhr.open(mergedCall.method, mergedCall.url);
-  
+  xhr.open(mergedCall.method, mergedCall.url, true);
+
   xhr.onload = function() {
-    console.log(xhr.status);
-    console.log(xhr.responseType);
-    console.log(xhr.response);
+    if (request.status === 200) {
+      options.success(request.response);
+    } else {
+      options.error(request.response);
+    }
   };
-  
-  xhr.send(mergedCall.data);
+
+  xhr.send(JSON.stringify(mergedCall.data));
 };
 
-// $l( () => {
-//   console.log($l("li"));
-// });
+fetchNodesFromDom = function (selector) {
+  const nodes = document.querySelectorAll(selector);
+  const nodesArray = Array.from(nodes);
+  return new DOMNodeCollection(nodesArray);
+}
+
+registerDocReadyCallback = function (func) {
+  if (_docReady) {
+    func();
+  } else {
+    _queue.push(func)
+  }
+};
