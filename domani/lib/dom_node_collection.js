@@ -47,7 +47,6 @@ class DOMNodeCollection {
 
   children() {
     let result = [];
-
     this.htmlEls.forEach( (node) => {
       let nodeChildren = node.children;
       result = result.concat(Array.from(nodeChildren));
@@ -57,26 +56,22 @@ class DOMNodeCollection {
 
   parent() {
     let result = [];
-
     this.htmlEls.forEach( (node) => {
       let nodeParent = node.parentNode;
       if (!result.includes(nodeParent)) {
         result.push(nodeParent);
         }
       });
-
       return new DOMNodeCollection(result);
     }
 
 
   find(selector) {
     let result = [];
-
     this.htmlEls.forEach( (node) => {
       let elementList = node.querySelectorAll(selector);
       result = result.concat(Array.from(elementList));
     });
-
     return new DOMNodeCollection(result);
   }
 
