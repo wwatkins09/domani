@@ -4,12 +4,12 @@ class DOMNodeCollection {
   }
 
   html(string) {
-    if (!string) {
-      return this.htmlEls[0].innerHTML;
-    } else {
+    if (typeof string === 'string') {
       this.htmlEls.forEach((node) => {
         node.innerHTML = string;
       });
+    } else {
+      return this.htmlEls[0].innerHTML;
     }
   }
 

@@ -25,8 +25,8 @@ window.$d = function (selector) {
 
 window.$d.extend = function(base, ...objects) {
   objects.forEach((object) => {
-    for (const key in obj) {
-      base[key] = obj[key];
+    for (const key in object) {
+      base[key] = object[key];
     }
   });
   return base;
@@ -36,7 +36,7 @@ window.$d.ajax = function(options) {
   const defaults = {
     success: () => {},
     error: () => {},
-    url: '',
+    url: 'https://www.booknomads.com/api/v0/isbn/9789000035526',
     method: 'GET',
     data: "",
     contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -48,11 +48,11 @@ window.$d.ajax = function(options) {
   const xhr = new XMLHttpRequest();
   xhr.open(mergedCall.method, mergedCall.url, true);
 
-  xhr.onload = function() {
-    if (request.status === 200) {
-      options.success(request.response);
+  xhr.onload = function(e) {
+    if (xhr.status === 200) {
+      defaults.success(xhr.response);
     } else {
-      options.error(request.response);
+      defaults.error(xhr.response);
     }
   };
 
