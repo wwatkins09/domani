@@ -14,3 +14,33 @@ To use domani, simply download the library into a preexisting project and includ
   ...
 </head>
 ```
+
+As an alternative, the user can also run `webpack` in the terminal to create the webpack file themselves.
+
+## API
+
+* $d
+* $d.ajax
+* $d.extend
+
+DOM Traversal
+
+* `each`
+* `children`
+* `parent`
+
+DOM Manipulation
+
+* `html`
+* `empty`
+* `append`
+* `attr`
+* `addClass`
+* `removeClass`
+* `find`
+* `remove`
+
+Event Listeners
+
+* `on`
+* `off`
