@@ -34,12 +34,12 @@ window.$d.extend = function(base, ...objects) {
 
 window.$d.ajax = function(options) {
   const defaults = {
+    method: 'GET',
+    url: 'https://www.booknomads.com/api/v0/isbn/9789000035526',
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    data: {},
     success: () => {},
     error: () => {},
-    url: 'https://www.booknomads.com/api/v0/isbn/9789000035526',
-    method: 'GET',
-    data: "",
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
   };
 
   const mergedCall = $d.extend(defaults, options);
