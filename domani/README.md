@@ -117,3 +117,7 @@ Given an event name/type and a callback function, adds an event listener to each
 ## `off`
 
 Given an event name/type, removes all callback functions associated with this event from all elements of the `DOMNodeCollection`.
+
+## Example
+
+To see domani in action, view the Snake demo code [here](https://github.com/wwatkins09/snake). Simply clone the project and view the index.html file locally.
