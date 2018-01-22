@@ -8,7 +8,11 @@ window.$d = function (selector) {
     case 'function':
       return registerDocReadyCallback(selector);
     case 'string':
-      return fetchNodesFromDom(selector);
+      if (selector[0] === '#') {
+        return new DOMNodeCollection([document.getElementById(selector.slice(1))]);
+      } else {
+        return fetchNodesFromDom(selector);
+      }
     case 'object':
       if (selector instanceof HTMLElement) {
         return new DOMNodeCollection([selector])
@@ -31,6 +35,8 @@ window.$d.extend = function(base, ...objects) {
   });
   return base;
 };
+
+window.$d.
 
 window.$d.ajax = function(options) {
   const defaults = {
