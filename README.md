@@ -2,6 +2,8 @@
 
 domani is a Javascript DOM manipulation library inspired by JQuery. It allows users to select, traverse, and create DOM elements, as well as create `DOMNodeCollection` objects using HTML5. It also simplifies HTML requests and processes them with an asynchronous queue.
 
+To see domani in action, view the Snake demo code [here](http://will-watkins.com/snake/).
+
 ## Getting Started
 
 To use domani, simply download the library into a preexisting project and include the webpack output `domani.js` in your source code.
@@ -117,7 +119,3 @@ Given an event name/type and a callback function, adds an event listener to each
 ## `off`
 
 Given an event name/type, removes all callback functions associated with this event from all elements of the `DOMNodeCollection`.
-
-## Example
-
-To see domani in action, view the Snake demo code [here](https://github.com/wwatkins09/snake). Simply clone the project and view the index.html file locally.
