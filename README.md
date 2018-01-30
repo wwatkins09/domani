@@ -45,6 +45,8 @@ Event Listeners
 
 * `on`
 * `off`
+* `keydown`
+* `removeKeydown`
 
 Throughout the domani library, the global variable `$d` is used as a wrapper for all its methods. It is used to select or create `HTMLElement` objects and returns them as a `DOMNodeCollection`. Elements can be selected in one of several ways, the most common of which being through CSS Selectors. `$d("ul")`, for example, would return a `DOMNodeCollection` of all `ul` elements in the document. Users can also pass in an unwrapped `HTMLElement`, which will then be given access to the methods available through `domani`.
 
@@ -119,3 +121,11 @@ Given an event name/type and a callback function, adds an event listener to each
 ## `off`
 
 Given an event name/type, removes all callback functions associated with this event from all elements of the `DOMNodeCollection`.
+
+## `keydown`
+
+Given a callback function, adds an event listener to the DOM which invokes the callback when a key is pressed.
+
+## `removeKeydown`
+
+Given a callback function, removes the event listener for the `keydown` event with that specific callback.
